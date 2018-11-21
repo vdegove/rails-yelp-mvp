@@ -1,19 +1,30 @@
-<h1><%= @restaurant.name %></h1>
+<div class="container">
 
-<ul>
-<li>Address: <%= @restaurant.address %></li>
-<li>Phone number: <%= @restaurant.phone_number %></li>
-<li>Category: <%= @restaurant.category %></li>
-</ul>
+  <h1><%= @restaurant.name %></h1>
 
-<h2>Reviews</h2>
-<ul>
-  <% @restaurant.reviews.each do |review| %>
-  <li><%= "⭐" * review.rating %> <%= review.content %>. Added on <%= review.created_at.strftime("%d/%m/%Y") %></li>
-  <% end %>
-</ul>
+  <ul>
+    <li>Address: <%= @restaurant.address %></li>
+    <li>Phone number: <%= @restaurant.phone_number %></li>
+    <li>Category: <%= @restaurant.category %></li>
+  </ul>
 
-<%= link_to("Add a review", new_restaurant_review_path(@restaurant), class: "btn btn-primary") %>
-<br>
-<%= link_to("Back to restaurant list", restaurants_path) %>
+  <h2>Reviews</h2>
+  <ul>
+    <% @restaurant.reviews.each do |review| %>
+    <li><%= "⭐" * review.rating %> <%= review.content %>. Added on <%= review.created_at.strftime("%d/%m/%Y") %></li>
+    <% end %>
+  </ul>
+
+  <h2>Add a review</h1>
+
+    <%= simple_form_for [@restaurant, @review] do |f| %>
+    <%= f.input :content %>
+    <%= f.input :rating, as: :radio_buttons, collection: (0..5) %>
+    <%= f.submit "add a review", class: "btn btn-primary" %>
+    <% end %>
+
+    <br>
+    <%= link_to("Back to restaurant list", restaurants_path) %>
+
+</div>
 
